@@ -26,6 +26,7 @@ public class VentasController {
     VentasService accionesVentas = new VentasService();
     @Operation(summary = "Este endpoint trae todas las ventas")
 
+    /*arreglar*/ 
     @GetMapping("/ventas")
     public List<Ventas> mostrarVentas(){
         return accionesVentas.getAllVentas();
@@ -36,6 +37,7 @@ public class VentasController {
         return ResponseEntity.ok(ventasService.crearVentas(vent));
     }
 
+    /*arreglar*/ 
     @GetMapping("/obtenerVenta/{idVenta}")
     public ResponseEntity<Ventas> obtenerVentas(@PathVariable int idVenta){
         Ventas ventas = ventasService.ObtenerVentas(idVenta);
@@ -47,14 +49,18 @@ public class VentasController {
     }
 
     @DeleteMapping("/ventas/{id}")
-    public String borrarVenta(@PathVariable int id){
-        return accionesVentas.borrarVenta(id);
+    public ResponseEntity<String> borrarVenta(@PathVariable int idVenta){
+        String mensaje = ventasService.borrarVenta(idVenta);
+        if("Venta eliminada correctamente".equals(mensaje)){
+            return ResponseEntity.ok(mensaje);
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/obtenerVentaDto/{cantProducto}")
-    public ResponseEntity<VentasDto> obtenerVentasDto(@PathVariable int cantProducto){
-        if (ventasService.ObtenerVentasDto(cantProducto) != null) {
-            return ResponseEntity.ok(ventasService.ObtenerVentasDto(cantProducto));
+    @GetMapping("/obtenerVentaDto/{idVenta}")
+    public ResponseEntity<VentasDto> obtenerVentasDto(@PathVariable int idVenta){
+        if (ventasService.ObtenerVentasDto(idVenta) != null) {
+            return ResponseEntity.ok(ventasService.ObtenerVentasDto(idVenta));
         } else {
             return ResponseEntity.notFound().build();
         }

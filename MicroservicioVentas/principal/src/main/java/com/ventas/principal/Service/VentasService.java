@@ -11,6 +11,8 @@ import com.ventas.principal.Model.dto.VentasDto;
 import com.ventas.principal.Model.entity.VentasEntity;
 import com.ventas.principal.Repository.VentasRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class VentasService {
     @Autowired
@@ -47,14 +49,16 @@ public class VentasService {
         }
     }
 
+    /*arreglar*/ 
+    @Transactional
     public String borrarVenta(int idVenta){
         for (Ventas vent : ventas){
-        if(vent.getIdVenta() == idVenta){
-            ventas.remove(vent);
-            return "Venta fue eliminada";
-        } else {
-            return null;
-        }
+            if(vent.getIdVenta() == idVenta){
+                ventas.remove(vent);
+                return "Venta fue eliminada";
+            } else {
+                return null;
+            }
         }
         return null;
     }
